@@ -8,6 +8,17 @@ Author: Eve Essex
 Author URI: http://github.com/eessex
 */
 
+add_action( 'wp_enqueue_scripts', 'add_stylesheet' );
+
+/**
+ * Enqueue plugin style-file
+ */
+function add_stylesheet() {
+    // Respects SSL, Style.css is relative to the current file
+    wp_register_style( 'instagram-feed-style', plugins_url('css/style.css', __FILE__) );
+    wp_enqueue_style( 'instagram-feed-style' );
+}
+
 // fix SSL request error
 add_action( 'http_request_args', 'no_ssl_http_request_args', 10, 2 );
 function no_ssl_http_request_args( $args, $url ) {
@@ -91,7 +102,7 @@ function no_ssl_http_request_args( $args, $url ) {
     // Display widget
     function widget($args, $instance) {
       // Define main output
-      $str    = '';
+
       // Get remote data
        $request_url = 'https://api.instagram.com/v1/users/199972609/media/recent?count=6&access_token=' . $instance['access_key'];
        $result = wp_remote_get( $request_url );
@@ -141,6 +152,7 @@ function no_ssl_http_request_args( $args, $url ) {
            // Get username and actual thumbnail
            foreach ( $result->data as $d ) {
              if ($n <= ($select -1)) {
+               $str    = '';
                $main_data[ $n ]['user']      = $d->user->username;
                $main_data[ $n ]['low_resolution'] = $d->images->low_resolution->url;
                $main_data[ $n ]['comments']      = $d->comments->count;
@@ -151,10 +163,12 @@ function no_ssl_http_request_args( $args, $url ) {
 
            // Create main string, pictures embedded in links
            foreach ( $main_data as $data ) {
-               $str .= '<a target="_blank" href="http://instagram.com/'.$data['user'].'"><div class="item"><img src="'.$data['low_resolution'].'" alt="'.$data['user'].' pictures"><div class="overlay"><span class="likes">' . $data['likes'] . ' likes</span><span class="comments">' . $data['comments'] . ' comments</span></div></div></a> ';
+               $str = '<a target="_blank" href="http://instagram.com/'.$data['user'].'"><div class="item"><img src="'.$data['low_resolution'].'" alt="'.$data['user'].' pictures"><div class="overlay"><ul><li class="likes">' . $data['likes'] . ' likes</li><li class="comments">' . $data['comments'] . ' comments</li></ul></div></a> ';
+               echo $str;
            }
+
        }
-       echo $str;
+
       echo '</div>';
       echo $after_widget;
     }
