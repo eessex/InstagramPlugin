@@ -8,22 +8,27 @@ Author: Eve Essex
 Author URI: http://github.com/eessex
 */
 
-// fix SSL request error
+// Add styles
+add_action( 'wp_enqueue_scripts', 'add_stylesheet' );
+function add_stylesheet() {
+    wp_register_style( 'instagram-feed-style', plugins_url('css/style.css', __FILE__) );
+    wp_enqueue_style( 'instagram-feed-style' );
+}
+
+// Request with SSL optional
 add_action( 'http_request_args', 'no_ssl_http_request_args', 10, 2 );
 function no_ssl_http_request_args( $args, $url ) {
     $args['sslverify'] = false;
     return $args;
 }
 
-
   class wp_my_plugin extends WP_Widget {
-
     // constructor
     function wp_my_plugin() {
       parent::WP_Widget(false, $name = __("Instagram Feed", "wp_widget_plugin") );
     }
 
-    // form creation
+    // Create form
     function form($instance) {
       // Check values
       if( $instance) {
@@ -88,15 +93,14 @@ function no_ssl_http_request_args( $args, $url ) {
       $instance['select'] = strip_tags($new_instance['select']);
       return $instance;
     }
+    
     // Display widget
     function widget($args, $instance) {
-      // Define main output
-      $str    = '';
       // Get remote data
-       $request_url = 'https://api.instagram.com/v1/users/199972609/media/recent?count=6&access_token=' . $instance['access_key'];
-       $result = wp_remote_get( $request_url );
-
+      $request_url = 'https://api.instagram.com/v1/users/199972609/media/recent?count=6&access_token=' . $instance['access_key'];
+      $result = wp_remote_get( $request_url );
       extract( $args );
+
       // Widget options
       $title = apply_filters('widget_title', $instance['title']);
       $access_key = $instance['access_key'];
@@ -107,18 +111,18 @@ function no_ssl_http_request_args( $args, $url ) {
       echo $before_widget;
 
       // Widget display
-      echo '<div class="widget-text wp_widget_plugin_box">';
+      echo '<div class="instagram-feed widget">';
        // Check if title is set
        if ( $title ) {
           echo $before_title . $title . $after_title;
        }
        // Check if username is set
        if( $username && $follow_text) {
-          echo '<h3 class="wp_widget_plugin_username"><a href="http://instagram.com/'.$username.'">Follow @'.$username.' on Instagram</a></h3>';
+          echo '<h3 class="username"><a href="http://instagram.com/'.$username.'">Follow @'.$username.' on Instagram</a></h3>';
        }
        // Check if textarea is set
        if( $textarea ) {
-         echo '<p class="wp_widget_plugin_textarea">'.$textarea.'</p>';
+         echo '<p class="textarea">'.$textarea.'</p>';
        }
        // Get number of posts to display
        	if ( $select == '1' ) {
@@ -141,6 +145,7 @@ function no_ssl_http_request_args( $args, $url ) {
            // Get username and actual thumbnail
            foreach ( $result->data as $d ) {
              if ($n <= ($select -1)) {
+               $str    = '';
                $main_data[ $n ]['user']      = $d->user->username;
                $main_data[ $n ]['low_resolution'] = $d->images->low_resolution->url;
                $main_data[ $n ]['comments']      = $d->comments->count;
@@ -151,18 +156,11 @@ function no_ssl_http_request_args( $args, $url ) {
 
            // Create main string, pictures embedded in links
            foreach ( $main_data as $data ) {
-              if ($data['likes'] > 0 ) {
-               $likes = '<span class="likes">' . $data['likes'] . ' likes</span>';
-              }
-              if ($data['comments'] > 0 ) {
-               $comments = '<span class="comments">' . $data['comments'] . ' comments</span>';
-              }
-               $str .= '<a target="_blank" href="http://instagram.com/'.$data['user'].'"><div class="item"><img src="'.$data['low_resolution'].'" alt="'.$data['user'].' pictures"><div class="overlay">'.$likes.$comments.'</div></div></a> ';
+               $str = '<a target="_blank" href="http://instagram.com/'.$data['user'].'"><div class="item"><img src="'.$data['low_resolution'].'" alt="'.$data['user'].' pictures"><div class="overlay"><ul><li class="likes">' . $data['likes'] . ' likes</li><li class="comments">' . $data['comments'] . ' comments</li></ul></div></a> ';
+               echo $str;
            }
+
        }
-
-       echo $str;
-
 
       echo '</div>';
       echo $after_widget;

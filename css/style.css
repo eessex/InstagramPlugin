@@ -1,0 +1,24 @@
+.instagram-feed.widget .item img {
+  max-width: 100%;
+  height: auto;
+}
+.instagram-feed.widget .item {
+  position: relative;
+}
+.instagram-feed.widget .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,.75);
+  opacity: 0;
+  text-align: center;
+}
+.instagram-feed.widget .overlay ul {
+margin-top: 40%;
+font-weight: 700;
+}
+.instagram-feed.widget .overlay:hover {
+  opacity: 1;
+}
