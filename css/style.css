@@ -1,11 +1,11 @@
-.widget-text .item img {
+.instagram-feed.widget .item img {
   max-width: 100%;
   height: auto;
 }
-.widget-text .item {
+.instagram-feed.widget .item {
   position: relative;
 }
-.widget-text .overlay {
+.instagram-feed.widget .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -15,10 +15,10 @@
   opacity: 0;
   text-align: center;
 }
-.widget-text .overlay ul {
+.instagram-feed.widget .overlay ul {
 margin-top: 40%;
 font-weight: 700;
 }
-.widget-text .overlay:hover {
+.instagram-feed.widget .overlay:hover {
   opacity: 1;
 }

@@ -8,33 +8,27 @@ Author: Eve Essex
 Author URI: http://github.com/eessex
 */
 
+// Add styles
 add_action( 'wp_enqueue_scripts', 'add_stylesheet' );
-
-/**
- * Enqueue plugin style-file
- */
 function add_stylesheet() {
-    // Respects SSL, Style.css is relative to the current file
     wp_register_style( 'instagram-feed-style', plugins_url('css/style.css', __FILE__) );
     wp_enqueue_style( 'instagram-feed-style' );
 }
 
-// fix SSL request error
+// Request with SSL optional
 add_action( 'http_request_args', 'no_ssl_http_request_args', 10, 2 );
 function no_ssl_http_request_args( $args, $url ) {
     $args['sslverify'] = false;
     return $args;
 }
 
-
   class wp_my_plugin extends WP_Widget {
-
     // constructor
     function wp_my_plugin() {
       parent::WP_Widget(false, $name = __("Instagram Feed", "wp_widget_plugin") );
     }
 
-    // form creation
+    // Create form
     function form($instance) {
       // Check values
       if( $instance) {
@@ -99,15 +93,14 @@ function no_ssl_http_request_args( $args, $url ) {
       $instance['select'] = strip_tags($new_instance['select']);
       return $instance;
     }
+    
     // Display widget
     function widget($args, $instance) {
-      // Define main output
-
       // Get remote data
-       $request_url = 'https://api.instagram.com/v1/users/199972609/media/recent?count=6&access_token=' . $instance['access_key'];
-       $result = wp_remote_get( $request_url );
-
+      $request_url = 'https://api.instagram.com/v1/users/199972609/media/recent?count=6&access_token=' . $instance['access_key'];
+      $result = wp_remote_get( $request_url );
       extract( $args );
+
       // Widget options
       $title = apply_filters('widget_title', $instance['title']);
       $access_key = $instance['access_key'];
@@ -118,18 +111,18 @@ function no_ssl_http_request_args( $args, $url ) {
       echo $before_widget;
 
       // Widget display
-      echo '<div class="widget-text wp_widget_plugin_box">';
+      echo '<div class="instagram-feed widget">';
        // Check if title is set
        if ( $title ) {
           echo $before_title . $title . $after_title;
        }
        // Check if username is set
        if( $username && $follow_text) {
-          echo '<h3 class="wp_widget_plugin_username"><a href="http://instagram.com/'.$username.'">Follow @'.$username.' on Instagram</a></h3>';
+          echo '<h3 class="username"><a href="http://instagram.com/'.$username.'">Follow @'.$username.' on Instagram</a></h3>';
        }
        // Check if textarea is set
        if( $textarea ) {
-         echo '<p class="wp_widget_plugin_textarea">'.$textarea.'</p>';
+         echo '<p class="textarea">'.$textarea.'</p>';
        }
        // Get number of posts to display
        	if ( $select == '1' ) {
