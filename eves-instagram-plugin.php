@@ -151,19 +151,10 @@ function no_ssl_http_request_args( $args, $url ) {
 
            // Create main string, pictures embedded in links
            foreach ( $main_data as $data ) {
-              if ($data['likes'] > 0 ) {
-               $likes = '<span class="likes">' . $data['likes'] . ' likes</span>';
-              }
-              if ($data['comments'] > 0 ) {
-               $comments = '<span class="comments">' . $data['comments'] . ' comments</span>';
-              }
-               $str .= '<a target="_blank" href="http://instagram.com/'.$data['user'].'"><div class="item"><img src="'.$data['low_resolution'].'" alt="'.$data['user'].' pictures"><div class="overlay">'.$likes.$comments.'</div></div></a> ';
+               $str .= '<a target="_blank" href="http://instagram.com/'.$data['user'].'"><div class="item"><img src="'.$data['low_resolution'].'" alt="'.$data['user'].' pictures"><div class="overlay"><span class="likes">' . $data['likes'] . ' likes</span><span class="comments">' . $data['comments'] . ' comments</span></div></div></a> ';
            }
        }
-
        echo $str;
-
-
       echo '</div>';
       echo $after_widget;
     }
