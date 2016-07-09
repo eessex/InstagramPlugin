@@ -6,6 +6,9 @@
   position: relative;
   display: inline-block;
 }
+.instagram-feed .item a:hover {
+  color: gray;
+}
 .instagram-feed .overlay {
   position: absolute;
   top: 0;
