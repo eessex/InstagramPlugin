@@ -49,15 +49,6 @@ function no_ssl_http_request_args( $args, $url ) {
         <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
       </p>
       <p>
-        <label for="<?php echo $this->get_field_id('access_key'); ?>"><?php _e('Instagram API Access Key:', 'instagram-feed'); ?></label> <small> <a href="http://jelled.com/instagram/access-token" target="_blank">What's this?</a></small>
-        <input class="widefat" id="<?php echo $this->get_field_id('access_key'); ?>" name="<?php echo $this->get_field_name('access_key'); ?>" type="access_key" value="<?php echo $access_key; ?>" />
-      </p>
-      <p>
-        <input id="<?php echo esc_attr( $this->get_field_id( 'follow_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'follow_text' ) ); ?>" type="checkbox" value="1" <?php checked( '1', $follow_text ); ?> />
-        <label for="<?php echo esc_attr( $this->get_field_id( 'follow_text' ) ); ?>"><?php _e( 'Display link to this account.', 'instagram-feed' ); ?></label>
-      </p>
-
-      <p>
         <label for="<?php echo $this->get_field_id('textarea'); ?>"><?php _e('Text area:', 'instagram-feed'); ?></label>
         <textarea class="widefat" id="<?php echo $this->get_field_id('textarea'); ?>" name="<?php echo $this->get_field_name('textarea'); ?>"><?php echo $textarea; ?></textarea>
       </p>
@@ -72,7 +63,14 @@ function no_ssl_http_request_args( $args, $url ) {
         ?>
         </select>
       </p>
-
+      <p>
+        <input id="<?php echo esc_attr( $this->get_field_id( 'follow_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'follow_text' ) ); ?>" type="checkbox" value="1" <?php checked( '1', $follow_text ); ?> />
+        <label for="<?php echo esc_attr( $this->get_field_id( 'follow_text' ) ); ?>"><?php _e( 'Display link to this account.', 'instagram-feed' ); ?></label>
+      </p>
+      <p>
+        <label for="<?php echo $this->get_field_id('access_key'); ?>"><?php _e('Instagram API Access Key:', 'instagram-feed'); ?></label> <small> <a href="http://jelled.com/instagram/access-token" target="_blank">What's this?</a></small>
+        <input class="widefat" id="<?php echo $this->get_field_id('access_key'); ?>" name="<?php echo $this->get_field_name('access_key'); ?>" type="access_key" value="<?php echo $access_key; ?>" />
+      </p>
       <?php
     }
     // update widget
