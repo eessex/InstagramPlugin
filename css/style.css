@@ -1,24 +1,29 @@
-.instagram-feed.widget .item img {
+.instagram-feed .item img {
   max-width: 100%;
   height: auto;
 }
-.instagram-feed.widget .item {
+.instagram-feed .item {
   position: relative;
+  display: inline-block;
 }
-.instagram-feed.widget .overlay {
+.instagram-feed .item a:hover {
+  color: gray;
+}
+.instagram-feed .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  right: 0em;
+  bottom: 0em;
   background-color: rgba(255,255,255,.75);
   opacity: 0;
   text-align: center;
 }
-.instagram-feed.widget .overlay ul {
-margin-top: 40%;
-font-weight: 700;
+.instagram-feed .overlay ul {
+  margin-top: 40%;
+  font-weight: 500;
+  font-size: x-large;
 }
-.instagram-feed.widget .overlay:hover {
+.instagram-feed .overlay:hover {
   opacity: 1;
 }
